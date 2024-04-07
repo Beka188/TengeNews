@@ -10,9 +10,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 original_link = 'https://tengrinews.kz'
-html_text = requests.get(original_link + '/news').text
-soup = BeautifulSoup(html_text, 'lxml')
-news = soup.find_all('div', class_='content_main_item')
+
 
 # print(news[original_link + news.a.picture.source['srcset']])
 class News:
@@ -26,31 +24,45 @@ class News:
         self.url = url
 
 
-top_news = []
-i = 0
-for new in news:
-    url = original_link + new.a['href']
-    image_link = original_link + new.find('img', class_='content_main_item_img')['src']
-    title = new.find('span', class_='content_main_item_title').text
+def get_main_page_news(link: str):
+    page_news = []
+    html_text = requests.get(link + '/news').text
+    soup = BeautifulSoup(html_text, 'lxml')
+    news = soup.find_all('div', class_='content_main_item')
+    for new in news:
+        url = original_link + new.a['href']
+        image_link = original_link + new.find('img', class_='content_main_item_img')['src']
+        title = new.find('span', class_='content_main_item_title').text
+        new_news = News(image_link, title, url)
+        page_news.append(new_news)
+        if len(page_news) == 5:
+            break
 
-    new_news = News(image_link, title, url)
-    top_news.append(new_news)
+    return page_news
 
-#
-# top_news = [
-#     {
-#         'image': 'img/news-450x350-1.jpg',
-#         'title': 'DFJFDJJSDF',
-#         'url': 'http://example.com/news1'
-#     },
-#     {
-#         'image': 'img/news-450x350-2.jpg',
-#         'title': 'Integer hendrerit elit eget purus sodales maximus',
-#         'url': 'http://example.com/news2'
-#     },
-#     # Add more news articles as needed
-# ]
+def get_sport_news(link: str):
+    page_news = []
+    html_text = requests.get(link).text
+    soup = BeautifulSoup(html_text, 'lxml')
+    news = soup.find_all('div', class_='main-news_super_item')
+    print(news)
+    for new in news:
+        url = original_link + new.a['href']
+        image_link = original_link + new.find('img', class_='main-news_super_item_img')['src']
+        title = new.find('span', class_='main-news_super_item_title').text
+        new_news = News(image_link, title, url)
+        page_news.append(new_news)
+        print(url)
+        print(image_link)
+        print(title)
+        print()
+        print()
+    return page_news
 
+# print(get_sport_news('https://tengrisport.kz/'))
 @app.get("/")
 async def main_page(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "top_news": top_news, "enumerate": enumerate})
+    top_news = get_main_page_news(original_link)
+    sport_news = get_sport_news('https://tengrisport.kz/')
+    edu_news = get_sport_news('https://tengrinews.kz/tengri-education/')
+    return templates.TemplateResponse("index.html", {"request": request, "top_news": top_news, "sport_news": sport_news, "edu_news": edu_news})
