@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import requests
 from bs4 import BeautifulSoup
+from News import News
 import jinja2
 import uvicorn
 import time
@@ -17,15 +18,6 @@ original_link = 'https://tengrinews.kz'
 
 
 # print(news[original_link + news.a.picture.source['srcset']])
-class News:
-    image: str
-    title: str
-    url: str
-
-    def __init__(self, image, title, url):
-        self.image = image
-        self.title = title
-        self.url = url
 
 
 def get_main_page_news(link: str):
@@ -55,8 +47,8 @@ def get_views_comments(link: str):
         print(views)
 
 
-def get_sport_news(link: str):
-    page_news = []
+def get_sport_news(link: str, remove: str):
+    page_news: [News] = []
     html_text = requests.get(link).text
     soup = BeautifulSoup(html_text, 'lxml')
     news = soup.find_all('div', class_='main-news_super_item')
@@ -64,9 +56,9 @@ def get_sport_news(link: str):
         url = original_link + new.a['href']
         image_link = original_link + new.find('img', class_='main-news_super_item_img')['src']
         title = new.find('span', class_='main-news_super_item_title').text
-        new_news = News(image_link, title, url)
-        page_news.append(new_news)
-
+        if title != remove:
+            new_news = News(image_link, title, url)
+            page_news.append(new_news)
     return page_news
 
 
@@ -123,19 +115,13 @@ get_trending_news('https://tengrinews.kz/mixnews/')
 @app.get("/")
 async def main_page(request: Request):
     top_news = get_main_page_news(original_link)
-    sport_news = get_sport_news('https://tengrisport.kz/')
-    edu_news = get_sport_news('https://tengrinews.kz/tengri-education/')
+    sport_news = get_sport_news('https://tengrisport.kz/', "")
+    edu_news = get_sport_news('https://tengrinews.kz/tengri-education/', "")
     travel_news = get_travel_news('https://tengritravel.kz/')
     trending_news = get_trending_news('https://tengrinews.kz/mixnews/')
     return templates.TemplateResponse("index.html", {"request": request, "top_news": top_news, "sport_news": sport_news,
                                                      "edu_news": edu_news, "travel_news": travel_news,
                                                      'trending_news': trending_news})
-
-
-
-@app.get("/news")
-async def open_file(request: Request, title: str, image: str):
-    return templates.TemplateResponse("single_page.html", {"request": request, "title": title, "image": image})
 
 
 def get_searched_news(searched_word: str):
@@ -156,13 +142,23 @@ def get_searched_news(searched_word: str):
         i += 1
     return searched_news
 
+
+def get_related_news(category: str, remove_news_title: str):
+    if category == "sport":
+        return get_sport_news("https://tengrisport.kz/", remove_news_title)
+
+
+@app.get("/news")
+async def open_file(request: Request, title: str, image: str, category: str = ""):
+    print(image)
+    related_news = get_related_news(category, title)
+    return templates.TemplateResponse("single_page.html", {"request": request, "title": title, "image": image,
+                                                           "related_news": related_news})
+
+
 @app.get("/search/")
 async def search(request: Request, text: str = Query(None)):
-    # Perform your search logic here using the text parameter
     searched_news = get_searched_news(text)
-    # return searched_news[0].title
-    print(searched_news)
     return templates.TemplateResponse("search.html", {"request": request, "searched_news": searched_news})
-
 
 # image_url, title, content, category

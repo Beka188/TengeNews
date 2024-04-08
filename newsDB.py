@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Column, String, Integer, Float, Date
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from pydantic import BaseModel
-
+from News import News as News_Class
 Base = declarative_base()
 
 class News(Base):
@@ -17,16 +17,15 @@ class News(Base):
 
 
     def __init__(self, title, content, published_date, category, image_url, source_url):
-        self.user = user
-        self.type = tip
-        self.price = price
-        self.address = address
-        self.area = area
-        self.rooms_count = rooms_count
-        self.description = description
+        self.title = title
+        self.content = content
+        self.published_date = published_date
+        self.category = category
+        self.image_url = image_url
+        self.source_url = source_url
 
     def __repr__(self):
-        return f"{self.id} {self.user} {self.type} {self.address} {self.area} {self.rooms_count} {self.description}"
+        return f"{self.title} {self.content} {self.published_date} {self.category} {self.image_url} {self.source_url} {self.description}"
 
 
 engine = create_engine("sqlite:///Advertisements.db", echo=True)
@@ -34,3 +33,13 @@ Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+def add_news(news: News_Class):
+    new_news = News(news.title, news.url, news.image)
+
+
+
+# def add_advertisement(user, data: Addd):
+#     ad = Advertisement(user, data.type, data.price, data.address, data.area, data.rooms_count, data.description)
+#     session.add(ad)
+#     session.commit()
+#     return ad.id
