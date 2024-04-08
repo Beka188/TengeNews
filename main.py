@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Query
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import requests
@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 import jinja2
 import uvicorn
 import time
+
+from requests_html2 import HTMLResponse
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -133,3 +135,40 @@ async def main_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "top_news": top_news, "sport_news": sport_news,
                                                      "edu_news": edu_news, "travel_news": travel_news,
                                                      'trending_news': trending_news})
+
+
+
+@app.get("/news")
+async def open_file(request: Request, title: str, image: str):
+    return templates.TemplateResponse("single_page.html", {"request": request, "title": title, "image": image})
+
+
+
+def get_searched_news(searched_word: str):
+    searched_news = []
+    html_text = requests.get(f'https://tengrinews.kz/search/?text={searched_word}').text
+    soup = BeautifulSoup(html_text, 'lxml')
+    news = soup.find_all('div', class_='content_main_item')
+    for new in news:
+        url = original_link + new.a['href']
+        image_link = original_link + new.find('img', class_='content_main_item_img')['src']
+        title = new.find('span', class_='content_main_item_title').text
+        new_news = News(image_link, title, url)
+        print(new_news.title)
+        print(new_news.image)
+        print(new_news.url)
+        print()
+        print()
+        searched_news.append(new_news)
+    return searched_news
+
+@app.get("/search/")
+async def search(text: str = Query(None)):
+    # Perform your search logic here using the text parameter
+    if text:
+        return {"text": text}
+    else:
+        return {"message": "No search query provided"}
+
+
+# image_url, title, content, category

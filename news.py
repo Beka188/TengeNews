@@ -14,12 +14,9 @@ class News(Base):
     category = Column("category", String)
     image_url = Column("image_url", String)
     source_url = Column("source_url", String)
-    views = Column("views", Integer)
-    likes = Column("likes", Integer)
-    comments = Column("comments", Integer)
-    keywords = Column("keywords", )
 
-    def __init__(self, user, tip, price, address, area, rooms_count, description):
+
+    def __init__(self, title, content, published_date, category, image_url, source_url):
         self.user = user
         self.type = tip
         self.price = price
