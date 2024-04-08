@@ -67,8 +67,10 @@
             </div>
             <div class="col-lg-3 col-md-4">
                 <div class="b-search">
-                    <input type="text" placeholder="Search">
-                    <button><i class="fa fa-search"></i></button>
+                    <form action="/search/" method="get">
+                        <input type="text" name="text" placeholder="Search">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -122,7 +124,7 @@
                         <div class="tn-img">
                             <img src="{{news_item.image}}"/>
                             <div class="tn-title">
-<a href="/news?title={{ news_item.title }}&image={{ news_item.image }}">{{news_item.title}}</a>
+                                <a href="/news?title={{ news_item.title }}&image={{ news_item.image }}">{{news_item.title}}</a>
                             </div>
                         </div>
                     </div>

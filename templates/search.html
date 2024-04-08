@@ -110,27 +110,38 @@
     </div>
 </div>
 <!-- Nav Bar End -->
+<div style="height: 20px;"></div>
 
-
-
-
-
+<!-- Search Results Header -->
+<h2 style="text-align: center;">Search results</h2>
 <!-- Main News Start-->
 <div class="main-news">
     <div class="container">
         <div class="row">
             {% for news_item in searched_news %}
-            <div class="col-lg-9">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="mn-img">
-                            <img src="{{ news_item.image }}"/>
-                            <div class="mn-title">
-                                <a href="">{{ news_item.title }}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="content_main_item">
+                <a href="">
+                    <picture>
+                        <source srcset="{{news_item.image}}"
+                                type="image/jpeg">
+                        <source media="(max-width: 640px)"
+                                srcset="{{news_item.image}}"
+                                type="image/jpeg">
+                        <img class="content_main_item_img"
+                             src="{{news_item.image}}"
+                             alt="">
+                    </picture>
+                </a>
+                <span class="content_main_item_title">
+                                <a href="/kazakhstan_news/kortej-prezidenta-frantsii-v-astane-popal-na-video-515426/">{{news_item.title}}</a>
+                            </span>
+                <span class="content_main_item_announce"></span>
+                <div class="content_main_item_meta">
+                                <span>
+                                </span>
+                    <span>
+
+</span></div>
             </div>
             {% endfor %}
 
@@ -268,3 +279,4 @@
 <!-- Template Javascript -->
 </body>
 </html>
+

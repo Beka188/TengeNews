@@ -138,27 +138,29 @@ async def open_file(request: Request, title: str, image: str):
     return templates.TemplateResponse("single_page.html", {"request": request, "title": title, "image": image})
 
 
-
 def get_searched_news(searched_word: str):
     searched_news = []
     html_text = requests.get(f'https://tengrinews.kz/search/?text={searched_word}').text
     soup = BeautifulSoup(html_text, 'lxml')
     news = soup.find_all('div', class_='content_main_item')
+    i = 0
     for new in news:
+        if i == 10:
+            break
         url = original_link + new.a['href']
         image_link = new.find('img', class_='content_main_item_img')['src']
         title = new.find('span', class_='content_main_item_title').text
         print(image_link)
         new_news = News(image_link, title, url)
-
         searched_news.append(new_news)
+        i += 1
     return searched_news
 
 @app.get("/search/")
 async def search(request: Request, text: str = Query(None)):
     # Perform your search logic here using the text parameter
-
     searched_news = get_searched_news(text)
+    # return searched_news[0].title
     print(searched_news)
     return templates.TemplateResponse("search.html", {"request": request, "searched_news": searched_news})
 

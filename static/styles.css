@@ -1360,3 +1360,17 @@ button.btn:hover {
         text-align: center;
     }
 }
+
+.content_main_item {
+    display: flex;
+    margin-bottom: 40px; /* Adjust the gap between items */
+}
+
+.content_main_item_img {
+    max-width: 200px; /* Set the maximum width of the image */
+    margin-right: 20px; /* Adjust the gap between the image and text */
+}
+
+.content_main_item_text {
+    flex-grow: 3; /* Allow the text to grow and take up remaining space */
+}
