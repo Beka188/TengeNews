@@ -255,35 +255,22 @@
                                 <img src="img/news-350x223-3.jpg"/>
                             </div>
                             <div class="tn-title">
-                                <a href="">Lorem ipsum dolor sit amet</a>
+                                <a href="">Lorem ipsum asdfkjlasdlfjh sit amet</a>
                             </div>
                         </div>
                     </div>
                     <div id="popular" class="container tab-pane fade">
+                        {% for news_item in popular_news %}
                         <div class="tn-news">
                             <div class="tn-img">
-                                <img src="img/news-350x223-4.jpg"/>
+                                <img src="{{news_item.image}}"/>
                             </div>
                             <div class="tn-title">
-                                <a href="">Lorem ipsum dolor sit amet</a>
+                                <a href="/news?title={{ news_item.title }}&category=popular&image={{news_item.image}}">{{news_item.title}}</a>
                             </div>
                         </div>
-                        <div class="tn-news">
-                            <div class="tn-img">
-                                <img src="img/news-350x223-5.jpg"/>
-                            </div>
-                            <div class="tn-title">
-                                <a href="">Lorem ipsum dolor sit amet</a>
-                            </div>
-                        </div>
-                        <div class="tn-news">
-                            <div class="tn-img">
-                                <img src="img/news-350x223-1.jpg"/>
-                            </div>
-                            <div class="tn-title">
-                                <a href="">Lorem ipsum dolor sit amet</a>
-                            </div>
-                        </div>
+                        {% endfor %}
+
                     </div>
                     <div id="latest" class="container tab-pane fade">
                         <div class="tn-news">
