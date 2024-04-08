@@ -117,7 +117,7 @@
 <div class="top-news">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 tn-left">
+            <div class="col-md-12 tn-left">
                 <div class="row tn-slider">
                     {% for news_item in top_news %}
                     <div class="col-md-6">
@@ -216,77 +216,82 @@
 </div>
 <!-- Category News End-->
 
-<!-- Tab News Start-->
-<div class="tab-news">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <ul class="nav nav-pills nav-justified">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="pill" href="#popular">Popular News</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="pill" href="#latest">Latest News</a>
-                    </li>
-                </ul>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Tab News Start-->
+            <div class="tab-news">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-pills nav-justified">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="pill" href="#popular">Popular News</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#latest">Latest News</a>
+                                </li>
+                            </ul>
 
-                <div class="tab-content">
-                    <div id="popular" class="container tab-pane active">
-                        {% for news_item in popular_news %}
-                        <div class="tn-news">
-                            <div class="tn-img">
-                                <img src="{{news_item.image}}"/>
-                            </div>
-                            <div class="tn-title">
-                                <a href="/news?title={{ news_item.title }}&category=popular&image={{news_item.image}}">{{news_item.title}}</a>
+                            <div class="tab-content">
+                                <div id="popular" class="container tab-pane active">
+                                    {% for news_item in popular_news %}
+                                    <div class="tn-news">
+                                        <div class="tn-img">
+                                            <img src="{{news_item.image}}"/>
+                                        </div>
+                                        <div class="tn-title">
+                                            <a href="/news?title={{ news_item.title }}&category=popular&image={{news_item.image}}">{{news_item.title}}</a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div id="latest" class="container tab-pane fade">
+                                    {% for news_item in latest_news %}
+                                    <div class="tn-news">
+                                        <div class="tn-img">
+                                            <img src="{{news_item.image}}"/>
+                                        </div>
+                                        <div class="tn-title">
+                                            <a href="/news?title={{ news_item.title }}&category=popular&image={{news_item.image}}">{{news_item.title}}</a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
-                        {% endfor %}
-
-                    </div>
-                    <div id="latest" class="container tab-pane fade">
-                        {% for news_item in latest_news %}
-                        <div class="tn-news">
-                            <div class="tn-img">
-                                <img src="{{news_item.image}}"/>
-                            </div>
-                            <div class="tn-title">
-                                <a href="/news?title={{ news_item.title }}&category=popular&image={{news_item.image}}">{{news_item.title}}</a>
-                            </div>
-                        </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
+            <!-- Tab News End-->
         </div>
-    </div>
-</div>
-<!-- Tab News Start-->
-
-<!-- Main News Start-->
-<div class="main-news">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="mn-list">
-                    <h2>Read More</h2>
-                    <ul>
-                        <li><a href="">Lorem ipsum dolor sit amet</a></li>
-                        <li><a href="">Pellentesque tincidunt enim libero</a></li>
-                        <li><a href="">Morbi id finibus diam vel pretium enim</a></li>
-                        <li><a href="">Duis semper sapien in eros euismod sodales</a></li>
-                        <li><a href="">Vestibulum cursus lorem nibh</a></li>
-                        <li><a href="">Morbi ullamcorper vulputate metus non eleifend</a></li>
-                        <li><a href="">Etiam vitae elit felis sit amet</a></li>
-                        <li><a href="">Nullam congue massa vitae quam</a></li>
-                        <li><a href="">Proin sed ante rutrum</a></li>
-                        <li><a href="">Curabitur vel lectus</a></li>
-                    </ul>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-5">
+            <!-- Main News Start-->
+            <div class="main-news">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="mn-list">
+                                <h2>Read More</h2>
+                                <ul>
+                                    {% for news_item in read_more %}
+                                    <li>
+                                        <a href="/news?title={{ news_item.title }}&category=popular&image={{news_item.image}}">{{news_item.title}}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- Main News End-->
         </div>
     </div>
 </div>
+
 <!-- Main News End-->
 
 <!-- Footer Start -->
