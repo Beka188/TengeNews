@@ -60,18 +60,13 @@ def get_sport_news(link: str):
     html_text = requests.get(link).text
     soup = BeautifulSoup(html_text, 'lxml')
     news = soup.find_all('div', class_='main-news_super_item')
-    print(news)
     for new in news:
         url = original_link + new.a['href']
         image_link = original_link + new.find('img', class_='main-news_super_item_img')['src']
         title = new.find('span', class_='main-news_super_item_title').text
         new_news = News(image_link, title, url)
         page_news.append(new_news)
-        print(url)
-        print(image_link)
-        print(title)
-        print()
-        print()
+
     return page_news
 
 
@@ -151,24 +146,21 @@ def get_searched_news(searched_word: str):
     news = soup.find_all('div', class_='content_main_item')
     for new in news:
         url = original_link + new.a['href']
-        image_link = original_link + new.find('img', class_='content_main_item_img')['src']
+        image_link = new.find('img', class_='content_main_item_img')['src']
         title = new.find('span', class_='content_main_item_title').text
+        print(image_link)
         new_news = News(image_link, title, url)
-        print(new_news.title)
-        print(new_news.image)
-        print(new_news.url)
-        print()
-        print()
+
         searched_news.append(new_news)
     return searched_news
 
 @app.get("/search/")
-async def search(text: str = Query(None)):
+async def search(request: Request, text: str = Query(None)):
     # Perform your search logic here using the text parameter
-    if text:
-        return {"text": text}
-    else:
-        return {"message": "No search query provided"}
+
+    searched_news = get_searched_news(text)
+    print(searched_news)
+    return templates.TemplateResponse("search.html", {"request": request, "searched_news": searched_news})
 
 
 # image_url, title, content, category
