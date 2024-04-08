@@ -55,8 +55,8 @@ def get_sport_news(link: str, remove: str):
     for new in news:
         url = original_link + new.a['href']
         image_link = original_link + new.find('img', class_='main-news_super_item_img')['src']
-        title = new.find('span', class_='main-news_super_item_title').text
-        if title != remove:
+        title = str(new.find('span', class_='main-news_super_item_title').text)
+        if title.strip().lower() != remove.strip().lower():
             new_news = News(image_link, title, url)
             page_news.append(new_news)
     return page_news
@@ -89,11 +89,6 @@ def get_trending_news(link: str):
         image_link = original_link + figure_tag.find('img')['src']
         title = new.find('h3', class_='post-title').text
         new_news = News(image_link, title, url)
-        # print(new_news.title)
-        # print(new_news.image)
-        # print(new_news.url)
-        # print()
-        # print()
         trending_news.append(new_news)
 
     return trending_news
@@ -150,7 +145,6 @@ def get_related_news(category: str, remove_news_title: str):
 
 @app.get("/news")
 async def open_file(request: Request, title: str, image: str, category: str = ""):
-    print(image)
     related_news = get_related_news(category, title)
     return templates.TemplateResponse("single_page.html", {"request": request, "title": title, "image": image,
                                                            "related_news": related_news})
