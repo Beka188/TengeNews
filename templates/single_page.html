@@ -91,18 +91,6 @@
 </div>
 <!-- Nav Bar End -->
 
-<!-- Breadcrumb Start -->
-<div class="breadcrumb-wrap">
-    <div class="container">
-        <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">News</a></li>
-            <li class="breadcrumb-item active">News details</li>
-        </ul>
-    </div>
-</div>
-<!-- Breadcrumb End -->
-
 <!-- Single News Start-->
 <div class="single-news">
     <div class="container">
@@ -126,7 +114,9 @@
                             <div class="sn-img">
                                 <img src="{{news_item.image}}"/>
                                 <div class="sn-title">
-                                    <a href="/news?title={{ news_item.title }}&image={{ news_item.image }}">{{news_item.title}}</a>
+                                    <a href="/news?title={{ news_item.title }}&category=recent&url={{url}}&image={{ news_item.image }}">{{news_item.title}}</a>
+<!--                                                                                <a href="/news?title={{ news_item.title }}&category=latest&url={{news_item.url}}&image={{news_item.image}}">{{news_item.title}}</a>-->
+
                                 </div>
                             </div>
                         </div>
@@ -146,7 +136,7 @@
                                     <img src="{{news_item.image}}"/>
                                 </div>
                                 <div class="nl-title">
-                                    <a href="/news?title={{ news_item.title }}&image={{ news_item.image }}">{{news_item.title}}</a>
+                                    <a href="/news?title={{ news_item.title }}&category=recent&url={{url}}&image={{ news_item.image }}">{{news_item.title}}</a>
                                 </div>
                             </div>
                             {% endfor %}

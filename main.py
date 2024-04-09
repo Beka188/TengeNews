@@ -19,8 +19,10 @@ async def main_page(request: Request):
 
 @app.get("/search/")
 async def search(request: Request, text: str = Query(None)):
-    searched_news = get_searched_news(text)
-    return templates.TemplateResponse("search.html", {"request": request, "searched_news": searched_news})
+    searched_news, keyword = get_searched_news(text)
+    total_pages = int(len(searched_news) / 10)
+    page: int = 0
+    return templates.TemplateResponse("search.html", {"request": request, "searched_news": searched_news, "page": page, "total_pages": total_pages, "searched_word": text})
 popular_news = get_popular_news(original_link, "")
 
 
@@ -34,6 +36,5 @@ async def open_file(request: Request, title: str = "", image: str = "", url: str
     related_news = get_related_news(category, title)
     return templates.TemplateResponse("single_page.html", {"request": request, "title": title, "image": image,
                                                            "related_news": related_news,
-                                                           "article_content": article_content})
-
-# get_popular_news(original_link, "")
+                                                           "article_content": article_content,
+                                                           "url":url})

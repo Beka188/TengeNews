@@ -36,10 +36,3 @@ session = Session()
 def add_news(news: News_Class):
     new_news = News(news.title, news.url, news.image)
 
-
-
-# def add_advertisement(user, data: Addd):
-#     ad = Advertisement(user, data.type, data.price, data.address, data.area, data.rooms_count, data.description)
-#     session.add(ad)
-#     session.commit()
-#     return ad.id
