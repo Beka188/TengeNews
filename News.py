@@ -16,13 +16,16 @@ class News:
 original_link = 'https://tengrinews.kz'
 image_not_found = "https://www.google.com/imgres?q=image%20not%20found&imgurl=https%3A%2F%2Fmedia.istockphoto.com%2Fid%2F1409329028%2Fvector%2Fno-picture-available-placeholder-thumbnail-icon-illustration-design.jpg%3Fs%3D612x612%26w%3D0%26k%3D20%26c%3D_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ%3D&imgrefurl=https%3A%2F%2Fwww.istockphoto.com%2Fvector%2Fno-picture-available-placeholder-thumbnail-icon-illustration-design-gm1409329028-459910308&docid=vMH7vQlbUCQfAM&tbnid=Oo2FlwD8DLKyVM&vet=12ahUKEwimvenflrOFAxUEIxAIHaulCHYQM3oECBkQAA..i&w=612&h=437&hcb=2&ved=2ahUKEwimvenflrOFAxUEIxAIHaulCHYQM3oECBkQAA"
 
+
 def get_main_page_news(link: str, remove: str):
     page_news = []
     html_text = requests.get(link + '/news').text
     soup = BeautifulSoup(html_text, 'lxml')
     news = soup.find_all('div', class_='content_main_item')
     for new in news:
-        url = original_link + new.a['href']
+        url = new.a['href']
+        if url[:5] != "https":
+            url = original_link + url
         try:
             image_link = original_link + new.find('img', class_='content_main_item_img')['src']
         except (AttributeError, TypeError):
@@ -37,14 +40,15 @@ def get_main_page_news(link: str, remove: str):
     return page_news
 
 
-
 def get_sport_news(link: str, remove: str):
     page_news: [News] = []
     html_text = requests.get(link).text
     soup = BeautifulSoup(html_text, 'lxml')
     news = soup.find_all('div', class_='main-news_super_item')
     for new in news:
-        url = original_link + new.a['href']
+        url = new.a['href']
+        if url[:5] != "https":
+            url = original_link + url
         try:
             image_link = original_link + new.find('img', class_='main-news_super_item_img')['src']
         except (AttributeError, TypeError):
@@ -64,7 +68,9 @@ def get_travel_news(link: str, remove: str):
     news = soup.find_all('article',
                          class_='grid-item post type-post status-publish format-standard has-post-thumbnail hentry category-around-the-world')
     for new in news:
-        url = original_link + new.a['href']
+        url = new.a['href']
+        if url[:5] != "https":
+            url = original_link + url
         try:
             image_link = original_link + new.find('img', class_='attachment- size- wp-post-image')['src']
         except (AttributeError, TypeError):
@@ -84,7 +90,9 @@ def get_trending_news(link: str, remove: str):
     news = soup.find_all('div',
                          class_='blog-post miami')
     for new in news:
-        url = original_link + new.a['href']
+        url = new.a['href']
+        if url[:5] != "https":
+            url = original_link + url
         figure_tag = new.find('figure', class_='post-image')
         try:
             image_link = original_link + figure_tag.find('img')['src']
@@ -107,7 +115,9 @@ def get_searched_news(searched_word: str):
     for new in news:
         if i == 10:
             break
-        url = original_link + new.a['href']
+        url = new.a['href']
+        if url[:5] != "https":
+            url = original_link + url
         try:
             image_link = new.find('img', class_='content_main_item_img')['src']
         except TypeError:
@@ -143,7 +153,9 @@ def get_popular_news(link: str, remove: str):
                          id='content-2')
     news = news_top.find_all('div', class_="main-news_top_item")
     for new in news:
-        url = original_link + new.a['href']
+        url = new.a['href']
+        if url[:5] != "https":
+            url = original_link + url
         image_html = requests.get(url).text
         soup = BeautifulSoup(image_html, "lxml")
         figure = soup.find('div', class_="content_main_thumb")
@@ -156,7 +168,7 @@ def get_popular_news(link: str, remove: str):
         except (AttributeError, TypeError) as e:
             print(f"Error: {e}")
             continue
-
+        # print(url)
         if remove == "" and len(popular_news) == 4:
             break
         elif remove != "" and len(popular_news) == 7:
@@ -173,7 +185,9 @@ def get_latest_news(link: str, remove: str):
                          id='content-1')
     news = news_top.find_all('div', class_="main-news_top_item")
     for new in news:
-        url = original_link + new.a['href']
+        url = new.a['href']
+        if url[:5] != "https":
+            url = original_link + url
         image_html = requests.get(url).text
         soup = BeautifulSoup(image_html, "lxml")
         figure = soup.find('div', class_="content_main_thumb")
@@ -185,12 +199,13 @@ def get_latest_news(link: str, remove: str):
         if title.strip().lower() != remove.strip().lower():
             new_news = News(image_link, title, url)
             latest_news.append(new_news)
-        if remove == "" and len(latest_news) == 4:
+        if remove == "" and len(latest_news) == 7:
             break
         elif remove != "" and len(latest_news) == 7:
             break
 
     return latest_news
+
 
 def read_more_news(link: str):
     more_news = []
@@ -198,7 +213,9 @@ def read_more_news(link: str):
     soup = BeautifulSoup(html_text, 'lxml')
     news = soup.find_all('div', class_="content_main_item")
     for new in news:
-        url = original_link + new.a['href']
+        url = new.a['href']
+        if url[:5] != "https":
+            url = original_link + url
         try:
             image_link = original_link + new.find('img')['src']
         except (AttributeError, TypeError):
@@ -206,11 +223,10 @@ def read_more_news(link: str):
         title = new.find('span', class_="content_main_item_title").text
         new_news = News(image_link, title, url)
         more_news.append(new_news)
-
         if len(more_news) == 6:
             break
     return more_news
-    # 'https://tengrinews.kz/tag/что_будет_с_казахстаном/'
+
 
 def main_page_news_collection():
     top_news = get_main_page_news(original_link, "")

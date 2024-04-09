@@ -21,17 +21,19 @@ async def main_page(request: Request):
 async def search(request: Request, text: str = Query(None)):
     searched_news = get_searched_news(text)
     return templates.TemplateResponse("search.html", {"request": request, "searched_news": searched_news})
+popular_news = get_popular_news(original_link, "")
 
 
 @app.get("/news")  # single page
-async def open_file(request: Request, title: str, image: str, category: str = ""):
-    url = 'https://tengrinews.kz/kazakhstan_news/zdanie-universiteta-zaminirovali-pod-almatyi-531626/'
+async def open_file(request: Request, title: str = "", image: str = "", url: str = "", category: str = ""):
+    # return url
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     article_content = soup.find('div', class_='content_main')
+
     related_news = get_related_news(category, title)
     return templates.TemplateResponse("single_page.html", {"request": request, "title": title, "image": image,
                                                            "related_news": related_news,
                                                            "article_content": article_content})
 
-get_popular_news(original_link, "")
+# get_popular_news(original_link, "")

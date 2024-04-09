@@ -52,20 +52,6 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-3 col-md-4">
-                <div class="b-logo">
-                    <a href="index.html">
-                        <img src="img/logo.png" alt="Logo">
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-4">
-                <div class="b-ads">
-                    <a href="https://htmlcodex.com">
-                        <img src="img/ads-1.jpg" alt="Ads">
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4">
                 <div class="b-search">
                     <form action="/search/" method="get">
                         <input type="text" name="text" placeholder="Search">
@@ -89,23 +75,15 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
-                        <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Sub Item 1</a>
-                            <a href="#" class="dropdown-item">Sub Item 2</a>
-                        </div>
-                    </div>
-                    <a href="single-page.html" class="nav-item nav-link">Single Page</a>
-                    <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+                    <a href="/" class="nav-item nav-link active">Home</a>
+                    <a href="/" class="nav-item nav-link">Single Page</a>
                 </div>
                 <div class="social ml-auto">
-                    <a href=""><i class="fab fa-twitter"></i></a>
-                    <a href=""><i class="fab fa-facebook-f"></i></a>
-                    <a href=""><i class="fab fa-linkedin-in"></i></a>
-                    <a href=""><i class="fab fa-instagram"></i></a>
-                    <a href=""><i class="fab fa-youtube"></i></a>
+                    <a href="https://twitter.com/tengrinewskz"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/Tengrinews.kz/"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://kz.linkedin.com/company/tengrinews?trk=public_profile_experience-item_profile-section-card_subtitle-click"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/tengrinewskz/"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCaVwOq2dw-_pghudWqMdalA"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </nav>
@@ -124,7 +102,7 @@
                         <div class="tn-img">
                             <img src="{{news_item.image}}"/>
                             <div class="tn-title">
-                                <a href="/news?title={{ news_item.title }}&category=main&image={{news_item.image}}">{{news_item.title}}</a>
+                                <a href="/news?title={{ news_item.title }}&category=main&url={{news_item.url}}&image={{news_item.image}}">{{news_item.title}}</a>
                             </div>
                         </div>
                     </div>
@@ -149,7 +127,7 @@
                         <div class="cn-img">
                             <img src="{{news_item.image}}"/>
                             <div class="cn-title">
-                                <a href="/news?title={{ news_item.title }}&category=sport&image={{news_item.image}}">{{news_item.title}}</a>
+                                <a href="/news?title={{ news_item.title }}&category=sport&url={{news_item.url}}&image={{news_item.image}}">{{news_item.title}}</a>
                             </div>
                         </div>
                     </div>
@@ -164,7 +142,7 @@
                         <div class="cn-img">
                             <img src="{{news_item.image}}"/>
                             <div class="cn-title">
-                                <a href="/news?title={{ news_item.title }}&category=education&image={{news_item.image}}">{{news_item.title}}</a>
+                                <a href="/news?title={{ news_item.title }}&category=education&url={{news_item.url}}&image={{news_item.image}}">{{news_item.title}}</a>
                             </div>
                         </div>
                     </div>
@@ -188,7 +166,7 @@
                         <div class="cn-img">
                             <img src="{{news_item.image}}"/>
                             <div class="cn-title">
-                                <a href="/news?title={{ news_item.title }}&category=travel&image={{news_item.image}}">{{news_item.title}}</a>
+                                <a href="/news?title={{ news_item.title }}&category=travel&url={{news_item.url}}&image={{news_item.image}}">{{news_item.title}}</a>
                             </div>
                         </div>
                     </div>
@@ -204,7 +182,7 @@
                         <div class="cn-img">
                             <img src="{{news_item.image}}"/>
                             <div class="cn-title">
-                                <a href="/news?title={{ news_item.title }}&category=trend&image={{news_item.image}}">{{news_item.title}}</a>
+                                <a href="/news?title={{ news_item.title }}&category=trend&url={{news_item.url}}&image={{news_item.image}}">{{news_item.title}}</a>
                             </div>
                         </div>
                     </div>
@@ -241,7 +219,7 @@
                                             <img src="{{news_item.image}}"/>
                                         </div>
                                         <div class="tn-title">
-                                            <a href="/news?title={{ news_item.title }}&category=popular&image={{news_item.image}}">{{news_item.title}}</a>
+                                            <a href="/news?title={news_item.title }}&category=popular&url={{news_item.url}}&image={{news_item.image}}">{{news_item.title}}</a>
                                         </div>
                                     </div>
                                     {% endfor %}
@@ -253,7 +231,7 @@
                                             <img src="{{news_item.image}}"/>
                                         </div>
                                         <div class="tn-title">
-                                            <a href="/news?title={{ news_item.title }}&category=popular&image={{news_item.image}}">{{news_item.title}}</a>
+                                            <a href="/news?title={{ news_item.title }}&category=latest&url={{news_item.url}}&image={{news_item.image}}">{{news_item.title}}</a>
                                         </div>
                                     </div>
                                     {% endfor %}
@@ -278,7 +256,7 @@
                                 <ul>
                                     {% for news_item in read_more %}
                                     <li>
-                                        <a href="/news?title={{ news_item.title }}&category=popular&image={{news_item.image}}">{{news_item.title}}</a>
+                                        <a href="/news?title={{ news_item.title }}&category=popular&url={{news_item.url}}&image={{news_item.image}}">{{news_item.title}}</a>
                                     </li>
                                     {% endfor %}
                                 </ul>
