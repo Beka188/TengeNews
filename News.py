@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
+from newsDB import get_news
+
 
 class News:
     image: str
@@ -149,17 +151,17 @@ def get_searched_news(searched_word: str):
 
 def get_related_news(category: str, remove_news_title: str):
     if category == "sport":
-        return get_sport_news("https://tengrisport.kz/", remove_news_title)
+        return get_news("sport")[:5]
     elif category == "education":
-        return get_sport_news('https://tengrinews.kz/tengri-education/', remove_news_title)
+        return get_news("edu")[:5]
     elif category == "travel":
-        return get_travel_news('https://tengritravel.kz/', remove_news_title)
+        return get_news("travel")[:5]
     elif category == "trend":
-        return get_trending_news('https://tengrinews.kz/mixnews/', remove_news_title)
-    elif category == "recent":
-        return get_popular_news(original_link, remove_news_title)
+        return get_news("trend")[:5]
+    elif category == "latest":
+        return get_news("latest")[:5]
     else:
-        return get_main_page_news(original_link, remove_news_title)
+        return get_news("main")[:5]
 
 
 def get_popular_news(link: str, remove: str):
@@ -251,13 +253,21 @@ def read_more_news(link: str):
     return more_news
 
 
+
+
 def main_page_news_collection():
-    top_news = get_main_page_news(original_link, "")
-    sport_news = get_sport_news('https://tengrisport.kz/', "")
-    edu_news = get_sport_news('https://tengrinews.kz/tengri-education/', "")
-    travel_news = get_travel_news('https://tengritravel.kz/', "")
-    trending_news = get_trending_news('https://tengrinews.kz/mixnews/', "")
-    popular_news = get_popular_news(original_link, "")
-    latest_news = get_latest_news(original_link, "")
-    read_more = read_more_news('https://tengrinews.kz/tag/что_будет_с_казахстаном/')
+    top_news = get_news("main")[:5]
+    sport_news = get_news("sport")[:5]
+    edu_news = get_news("edu")[:5]
+    travel_news = get_news("travel")[:5]
+    trending_news = get_news("trend")[:5]
+    popular_news = get_news("popular")[:5]
+    latest_news = get_news("latest")[:5]
+    read_more = get_news("read_more")[:5]
     return top_news, sport_news, edu_news, travel_news, trending_news, popular_news, latest_news, read_more
+
+def get_news_content(url: str):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    article_content = soup.find('div', class_='content_main')
+    return article_content
