@@ -123,26 +123,25 @@ def get_trending_news(link: str, remove: str):
 def get_searched_news(searched_word: str):
     searched_news = []
     try:
-        for page in range(1, 5):
-            html_text = requests.get(f'https://tengrinews.kz/search/page/{page}/?text={searched_word}').text
-            soup = BeautifulSoup(html_text, 'lxml')
-            news = soup.find_all('div', class_='content_main_item')
-            i = 0
-            for new in news:
-                if i == 10:
-                    break
-                url = new.a['href']
-                if url[:5] != "https":
-                    url = original_link + url
-                try:
-                    image_link = new.find('img', class_='content_main_item_img')['src']
-                except TypeError:
-                    image_link = image_not_found
-                    continue
-                title = new.find('span', class_='content_main_item_title').text
-                new_news = News(image_link, title, url)
-                searched_news.append(new_news)
-                i += 1
+        html_text = requests.get(f'https://tengrinews.kz/search/page/1/?text={searched_word}').text
+        soup = BeautifulSoup(html_text, 'lxml')
+        news = soup.find_all('div', class_='content_main_item')
+        i = 0
+        for new in news:
+            if i == 15:
+                break
+            url = new.a['href']
+            if url[:5] != "https":
+                url = original_link + url
+            try:
+                image_link = new.find('img', class_='content_main_item_img')['src']
+            except TypeError:
+                image_link = image_not_found
+                continue
+            title = new.find('span', class_='content_main_item_title').text
+            new_news = News(image_link, title, url)
+            searched_news.append(new_news)
+            i += 1
     except:
         searched_news = [News(image_not_found, "NOT FOUND", "")]
     return searched_news, searched_word
