@@ -38,3 +38,4 @@ async def open_file(request: Request, title: str = "", image: str = "", url: str
                                                            "related_news": related_news,
                                                            "article_content": article_content,
                                                            "url":url})
+print(main_page_news_collection())

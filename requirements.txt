@@ -1,0 +1,5 @@
+fastapi~=0.110.1
+requests~=2.31.0
+beautifulsoup4~=4.12.3
+SQLAlchemy~=2.0.29
+pydantic~=2.6.4
