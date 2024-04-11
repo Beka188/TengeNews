@@ -62,12 +62,13 @@ def print_db():
     for user in news:
         print(user.category)
         print(user.title)
+        print(user.date)
         print()
 
 
 def get_news(category: str):
     news_results = session.query(News).filter(News.category.like(f"%{category}%")).order_by(desc(News.date)).all()
-    return news_results[::-1]
+    return news_results
 
 
 def if_exist(url: str, category: str):
